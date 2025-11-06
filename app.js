@@ -6,9 +6,13 @@ import {
 
 // 🔥 Configuration Firebase (remplace par la tienne)
 const firebaseConfig = {
-  apiKey: "TA_CLE_API_ICI",
-  authDomain: "reservation-materiel.firebaseapp.com",
-  projectId: "reservation-materiel",
+  apiKey: "AIzaSyANsJqWUkmvYGo5Y5N9-xXp6HE2XyyDwVM",
+  authDomain: "presentoir-e915d.firebaseapp.com",
+  projectId: "presentoir-e915d",
+  storageBucket: "presentoir-e915d.firebasestorage.app",
+  messagingSenderId: "772898567381",
+  appId: "1:772898567381:web:6a09f17ab79b2391f3de5c",
+  measurementId: "G-HH46H8FNW6",
 };
 
 // Initialise Firebase
