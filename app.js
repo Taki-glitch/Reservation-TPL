@@ -20,17 +20,17 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Fonction pour afficher le matériel
-async function afficherMateriel() {
-  const listContainer = document.getElementById("materiel-list");
+async function afficherpresentoir() {
+  const listContainer = document.getElementById("presentoir-list");
   listContainer.innerHTML = "<p>Chargement...</p>";
 
-  const querySnapshot = await getDocs(collection(db, "materiel"));
+  const querySnapshot = await getDocs(collection(db, "presentoir"));
   listContainer.innerHTML = "";
 
   querySnapshot.forEach((docSnap) => {
     const data = docSnap.data();
     const div = document.createElement("div");
-    div.className = "materiel";
+    div.className = "presentoir";
     div.innerHTML = `
       <h3>${data.nom}</h3>
       <p>Disponibilité : ${data.dispo ? "✅ Disponible" : "❌ Réservé"}</p>
@@ -41,7 +41,7 @@ async function afficherMateriel() {
     button.addEventListener("click", async () => {
       await updateDoc(doc(db, "materiel", docSnap.id), { dispo: false });
       alert(`${data.nom} réservé avec succès !`);
-      afficherMateriel(); // rafraîchir
+      afficherpresentoir(); // rafraîchir
     });
 
     listContainer.appendChild(div);
@@ -49,4 +49,4 @@ async function afficherMateriel() {
 }
 
 // Affiche les données dès le chargement
-afficherMateriel();
+afficherpresentoir();
