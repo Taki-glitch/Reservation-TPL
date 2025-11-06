@@ -22,31 +22,53 @@ const db = getFirestore(app);
 // Fonction pour afficher le matériel
 async function afficherpresentoir() {
   const listContainer = document.getElementById("presentoir-list");
+  if (!listContainer) {
+    console.error("Erreur : aucun élément avec l'ID 'presentoir-list' trouvé dans le HTML.");
+    return;
+  }
+
   listContainer.innerHTML = "<p>Chargement...</p>";
 
-  const querySnapshot = await getDocs(collection(db, "presentoir"));
-  listContainer.innerHTML = "";
+  try {
+    const querySnapshot = await getDocs(collection(db, "presentoir"));
+    listContainer.innerHTML = "";
 
-  querySnapshot.forEach((docSnap) => {
-    const data = docSnap.data();
-    const div = document.createElement("div");
-    div.className = "presentoir";
-    div.innerHTML = `
-      <h3>${data.nom}</h3>
-      <p>Disponibilité : ${data.dispo ? "✅ Disponible" : "❌ Réservé"}</p>
-      <button ${!data.dispo ? "disabled" : ""}>Réserver</button>
-    `;
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const div = document.createElement("div");
+      div.className = "presentoir";
 
-    const button = div.querySelector("button");
-    button.addEventListener("click", async () => {
-      await updateDoc(doc(db, "presentoir", docSnap.id), { dispo: false });
-      alert(`${data.nom} réservé avec succès !`);
-      afficherpresentoir(); // rafraîchir
+      // Créer le HTML selon la disponibilité
+      if (data.dispo) {
+        div.innerHTML = `
+          <h3>${data.nom}</h3>
+          <p>Disponibilité : ✅ Disponible</p>
+          <button>Réserver</button>
+        `;
+      } else {
+        div.innerHTML = `
+          <h3>${data.nom}</h3>
+          <p>Disponibilité : ❌ Réservé</p>
+          <button>Libérer</button>
+        `;
+      }
+
+      // Gérer le clic sur le bouton
+      const button = div.querySelector("button");
+      button.addEventListener("click", async () => {
+        const newDispo = !data.dispo; // true si libérer, false si réserver
+        await updateDoc(doc(db, "presentoir", docSnap.id), { dispo: newDispo });
+        alert(`${data.nom} ${newDispo ? "libéré" : "réservé"} avec succès !`);
+        afficherpresentoir(); // rafraîchir la liste
+      });
+
+      listContainer.appendChild(div);
     });
-
-    listContainer.appendChild(div);
-  });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données :", error);
+    listContainer.innerHTML = "<p>Impossible de charger les présentoirs.</p>";
+  }
 }
 
-// Affiche les données dès le chargement
-afficherpresentoir();
+// Affiche les données dès que le DOM est prêt
+document.addEventListener("DOMContentLoaded", afficherpresentoir);
