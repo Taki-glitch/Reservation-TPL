@@ -31,3 +31,19 @@ button:disabled {
   background: #aaa;
   cursor: not-allowed;
 }
+
+.button-reserver {
+  background-color: green;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.button-liberer {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
