@@ -39,7 +39,7 @@ async function afficherpresentoir() {
 
     const button = div.querySelector("button");
     button.addEventListener("click", async () => {
-      await updateDoc(doc(db, "materiel", docSnap.id), { dispo: false });
+      await updateDoc(doc(db, "presentoir", docSnap.id), { dispo: false });
       alert(`${data.nom} réservé avec succès !`);
       afficherpresentoir(); // rafraîchir
     });
