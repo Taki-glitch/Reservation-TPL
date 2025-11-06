@@ -38,22 +38,22 @@ async function afficherpresentoir() {
       const div = document.createElement("div");
       div.className = "presentoir";
 
-      // Créer le HTML selon la disponibilité
+      // Créer le HTML selon la disponibilité avec couleurs
       if (data.dispo) {
         div.innerHTML = `
           <h3>${data.nom}</h3>
           <p>Disponibilité : ✅ Disponible</p>
-          <button>Réserver</button>
+          <button style="background-color: green; color: white; padding: 5px 10px; border: none; cursor: pointer;">Réserver</button>
         `;
       } else {
         div.innerHTML = `
           <h3>${data.nom}</h3>
           <p>Disponibilité : ❌ Réservé</p>
-          <button>Libérer</button>
+          <button style="background-color: red; color: white; padding: 5px 10px; border: none; cursor: pointer;">Libérer</button>
         `;
       }
 
-      // Gérer le clic sur le bouton
+      // Gestion du clic sur le bouton
       const button = div.querySelector("button");
       button.addEventListener("click", async () => {
         const newDispo = !data.dispo; // true si libérer, false si réserver
